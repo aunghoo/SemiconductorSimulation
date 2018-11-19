@@ -1,0 +1,10 @@
+spec,feature,process,resource,cost
+S1,Fd1,PD2,D2,3
+S1,Fd1,PD1,D1,5
+S1,Fd1,PD3,D1,8
+S1,Fd1,PD2,D1,24
+S1,Fd1,PD3,D3,31
+S1,Fd1,PD3,D4,43
+S1,Fi1,PI1,I1,1
+S1,Fl1,PL1,L1,5
+S1,Fl1,PL1,L2,24
