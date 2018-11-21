@@ -379,15 +379,6 @@ public class SimulationContextBuilder implements ContextBuilder<Object> {
 				100001, 102000, 150000, this.exitPointStorage, this.exitHumanPoint, prefix);
 		cyberContext.add(test2);
 		
-	
-		
-		
-		
-		/*TestingBrokenMachine test2 = new TestingBrokenMachine(physicalGrid,cyberContext,physicalContext,
-				100001, 200000, this.exitPointStorage, this.exitHumanPoint, prefix);
-		cyberContext.add(test2);*/
-		
-		
 		PartSnapshot partSnap = new PartSnapshot(physicalGrid,physicalContext, prefix);
 		cyberContext.add(partSnap);
 		
