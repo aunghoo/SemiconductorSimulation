@@ -9,6 +9,12 @@ public class ProductState {
 	private PhysicalProperty location;
 	private PhysicalProperty processCompleted;
 	
+	
+	//added costs, local constraint, global constraint
+	private int cost;
+	private int lVal;
+	private int gVal;
+	
 	/**
 	 * @param holdingObject
 	 * @param processCompleted
@@ -18,16 +24,30 @@ public class ProductState {
 		this.holdingObject = holdingObject;
 		this.location = location;
 		this.processCompleted = processCompleted;
+		this.cost = 1;
+		this.lVal = 10;
+		this.gVal = 0;
 	}
 	
 	public Point getLocation() {
 		return location.getPoint();
 	}
+	
 
 	public String getProcessCompleted() {
 		if (this.processCompleted==null || this.processCompleted.getProcessCompleted()==null) {return "nothing completed";}
 		
 		return this.processCompleted.getProcessCompleted();
+	}
+	
+	public int getCost() {
+		return this.cost;
+	}
+	public int getlVal() {
+		return this.lVal;
+	}
+	public int getgVal() {
+		return this.gVal;
 	}
 	
 	public ArrayList<PhysicalProperty> getPhysicalProperties(){

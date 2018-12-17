@@ -21,6 +21,16 @@ import sharedInformation.ResourceEvent;
 import sharedInformation.ProductState;
 import sharedInformation.PhysicalProperty;
 
+//imports for the jackson library
+//imports for the json file production
+import java.io.File;
+import java.io.IOException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+//automata model to output into JSON
+import intelligentProduct.Automata;
+
 /**
  * @author ikoval
  *
@@ -354,6 +364,7 @@ public class ProductAgentInstance implements ProductAgent{
 		//Find the desired distance with the shortest distance
 		
 		ArrayList<ProductState> desiredNodes = new ArrayList<ProductState>();
+		//ArrayList<ResourceEvent> desiredEvents = new ArrayList<ResourceEvent>();
 		
 		//Find the desired nodes in the environment model
 		for (PhysicalProperty property: desiredProperties){
@@ -363,6 +374,44 @@ public class ProductAgentInstance implements ProductAgent{
 				}
 			}
 		}
+		
+		//start finding optimal path using the desired nodes
+		
+		Automata z3 = new Automata();
+	    z3.startState = desiredNodes.get(0).getProcessCompleted();
+	    z3.endState = desiredNodes.get(desiredNodes.size() - 1).getProcessCompleted();
+	    //add all the vertices
+	    
+	    for (ProductState vertex : desiredNodes) {
+	    	z3.addState(vertex);
+	    	//ArrayList<Route>routes = new ArrayList<Route>();
+	    	//find edges associated with the vertex
+	    	/*
+	    	for (ResourceEvent edge : environmentModel.getEdges()) {
+	    		if (edge.getParent() == vertex) {
+	    			Route r = new Route(edge.getChild().getProcessCompleted(), vertex.getProcessCompleted() + "_t_" + edge.getChild().getProcessCompleted());
+	    			routes.add(r);
+	    			//z3.addTransition(edge);
+	    		}
+	    	}
+	    	if (!routes.isEmpty()) {
+	    		z3.addTransition(vertex, routes);
+	    	}*/
+	    }
+
+	    /*
+	    ObjectMapper mapper = new ObjectMapper();
+	    //mapper.writeValue(new File("d:\\test\\testFile.json"), z3);
+	        
+	    try {
+	    	// Writing to a file
+	        mapper.writeValue(new File("d:\\test\\testFile.json"), desiredNodeFinal);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }*/
+
+	    System.out.print("the json file printed");
+		
 		
 		//Find the fastest path to one of the desired nodes
 		for (ProductState desiredNode: desiredNodes){
