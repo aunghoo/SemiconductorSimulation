@@ -374,41 +374,55 @@ public class ProductAgentInstance implements ProductAgent{
 				}
 			}
 		}
+		//start =environmentModel.getCurrentState();
+		//end = environmentModel.get
+		
 		
 		//start finding optimal path using the desired nodes
 		
 		Automata z3 = new Automata();
-	    z3.startState = desiredNodes.get(0).getProcessCompleted();
-	    z3.endState = desiredNodes.get(desiredNodes.size() - 1).getProcessCompleted();
+	    //z3.startState = desiredNodes.get(0).getProcessCompleted();
+	    //z3.endState = desiredNodes.get(desiredNodes.size() - 1).getProcessCompleted();
 	    //add all the vertices
-	    
-	    for (ProductState vertex : desiredNodes) {
-	    	z3.addState(vertex);
-	    	//ArrayList<Route>routes = new ArrayList<Route>();
-	    	//find edges associated with the vertex
-	    	/*
-	    	for (ResourceEvent edge : environmentModel.getEdges()) {
-	    		if (edge.getParent() == vertex) {
-	    			Route r = new Route(edge.getChild().getProcessCompleted(), vertex.getProcessCompleted() + "_t_" + edge.getChild().getProcessCompleted());
-	    			routes.add(r);
-	    			//z3.addTransition(edge);
-	    		}
-	    	}
-	    	if (!routes.isEmpty()) {
-	    		z3.addTransition(vertex, routes);
-	    	}*/
-	    }
 
-	    /*
-	    ObjectMapper mapper = new ObjectMapper();
-	    //mapper.writeValue(new File("d:\\test\\testFile.json"), z3);
-	        
-	    try {
-	    	// Writing to a file
-	        mapper.writeValue(new File("d:\\test\\testFile.json"), desiredNodeFinal);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }*/
+		
+	    //form states and transitions based on the environmentalModel
+	    ArrayList<Route>routes = new ArrayList<Route>();
+    	for (ProductState parent : environmentModel.getVertices()) {
+    		z3.addState(parent);
+    		for (ResourceEvent edge : environmentModel.getEdges()) {
+    			//System.out.println(edge.getParent().getName());
+    			//System.out.println(parent.getName());
+    			if (edge.getParent().getName().equals(parent.getName())) {
+    				System.out.print("parent added\n");
+	    			Route r = new Route(edge.getChild().getName(), parent.getName() + "_t_" + edge.getChild().getName());
+	    			routes.add(r);
+    			}
+    		}	
+    		z3.addTransition(parent, routes);
+    	}
+	    for (ProductState vertex : desiredNodes) {
+	    	z3.startState = z3.endState;
+	    	z3.endState = vertex.getName();
+	    	ObjectMapper mapper = new ObjectMapper();
+		    //mapper.writeValue(new File("d:\\test\\testFile.json"), z3);
+		        
+		    try {
+		    	// Writing to a file
+		        mapper.writeValue(new File("d:\\test\\testFile.json"), z3);
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+	    }
+	    for (Transition t : z3.transitions) {
+	    	for (Route r: t.routes) {
+	    		System.out.println(r.name);
+	    	}
+	    }
+	    
+
+	    
+	    
 
 	    System.out.print("the json file printed");
 		

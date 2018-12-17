@@ -63,6 +63,9 @@ public class ProductState {
 		
 		return list;		
 	}
+	public String getName() {
+		return this.holdingObject + " ";
+	}
 	
 	@Override
 	public String toString(){
